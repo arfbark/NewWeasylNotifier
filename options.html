@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>New Weasyl Notifier Options</title>
+	<link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+	<div>
+		<label>Weasyl API key:</label>
+		<input type="text" id="apikey" />
+	</div>
+	<div>
+		<label>
+			<input type="checkbox" id="desktopNotifications" />Use desktop notifications</label>
+	</div>
+	<div>
+		<label>Which submissions to include in the count?</label>
+		<br>
+		<label>
+			<input type="checkbox" id="includeSubmissions" />submissions</label>
+		<br>
+		<label>
+			<input type="checkbox" id="includeJournals" />journals</label>
+		<br>
+		<label>
+			<input type="checkbox" id="includeUnreadNotes" />notes</label>
+		<br>
+		<label>
+			<input type="checkbox" id="includeStreamNotifications" />streaming notifications</label>
+		<br>
+		<label>
+			<input type="checkbox" id="includeComments" />comments</label>
+		<br>
+	</div>
+	<button id="save">Save</button>
+	<label id="status"></label>
+	<script src="options.js"></script>
+</body>
+
+</html>

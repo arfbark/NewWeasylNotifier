@@ -1,0 +1,15 @@
+#popup {
+	width: 360px;
+}
+
+#apikey {
+	width: 30em;
+}
+
+#initializeSettings {
+	
+}
+
+.invisible {
+	display: none;
+}

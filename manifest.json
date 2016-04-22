@@ -1,0 +1,30 @@
+{
+    "manifest_version": 2,
+    "name": "New Weasyl Notifier",
+    "short_name": "New Weasyl Notifier",
+    "description": "New Weasyl Notifier polls weasyl.com for new notifications.",
+    "version": "1.0.0",
+    "author": "ArfBark",
+    "options_page": "options.html",
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html",
+        "default_title": "New Weasyl Notifications"
+    },
+    "permissions": [
+        "alarms",
+        "storage"
+    ],
+    "web_accessible_resources": [
+
+    ],
+    "background": {
+        "page": "events.html",
+        "persistent": false
+    },
+    "icons": {
+        "16": "icon.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    }
+}
