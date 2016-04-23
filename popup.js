@@ -6,23 +6,34 @@ function getSubmissions() {
     // pull apikey from storage
     chrome.storage.sync.get('apikey', function(items) {
         var apikey = items['apikey'];
-
         if (apikey) {
             $.ajax({
-                dataType: "application/json",
+                dataType: "json",
                 url: "https://www.weasyl.com/api/messages/summary",
                 headers: { 'X-Weasyl-API-Key': apikey },
-                success: success
+                success: updateUI,
+                error: error
             })
         } else {
             //    invite to options page
             displayError("You need to go to the options page and enter a working API key.");
         }
     })
-
-    // request submissions
-    function success( data, status){
-        displayError("<pre>" + data.stringify() + "yeah</pre>");
+    
+    function error(jqXHR, textStatus, errorThrown){
+        displayError("Something is wrong.");
+    }
+    
+    function updateUI(data){
+        updateIndividualSpan("submissions", data["submissions"]);
+        updateIndividualSpan("journals", data["journals"]);
+        updateIndividualSpan("notes", data["unread_notes"]);
+        updateIndividualSpan("comments", data["comments"]);
+        updateIndividualSpan("streamingNotifications", data["notifications"]);
+    }
+    
+    function updateIndividualSpan(id, count){
+        document.getElementById(id).innerHTML = count;
     }
     //    try something else
     // parse results
@@ -35,9 +46,13 @@ function displayError(e) {
     error.innerHTML = e;
 
     // remove class with regex
-    error.className =
-        error.className.replace
-            (/(?:^|\s)invisible(?!\S)/g, '');
+    error.className = '';
+}
+
+function dismissError(){
+    var error = document.getElementById('error');
+    error.className = 'invisible';
 }
 
 document.addEventListener('DOMContentLoaded', pageLoaded);
+document.getElementById('error').addEventListener("click", dismissError);

@@ -6,6 +6,13 @@
 	width: 30em;
 }
 
+#error {
+	background-color: red;
+	color: white;
+	padding: 25px;
+	text-align: center;
+}
+
 #initializeSettings {
 	
 }

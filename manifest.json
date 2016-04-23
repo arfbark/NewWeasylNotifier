@@ -13,7 +13,8 @@
     },
     "permissions": [
         "alarms",
-        "storage"
+        "storage",
+        "https://www.weasyl.com/"
     ],
     "web_accessible_resources": [
 
@@ -26,5 +27,6 @@
         "16": "icon.png",
         "48": "icon48.png",
         "128": "icon128.png"
-    }
+    },
+    "content_security_policy": "script-src 'self' https://www.weasyl.com; object-src 'self'"
 }
