@@ -1,5 +1,5 @@
 #popup {
-	width: 360px;
+	width: 180px;
 }
 
 #apikey {
@@ -11,10 +11,6 @@
 	color: white;
 	padding: 25px;
 	text-align: center;
-}
-
-#initializeSettings {
-	
 }
 
 .invisible {

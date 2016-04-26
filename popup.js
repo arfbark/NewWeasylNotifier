@@ -1,58 +1,54 @@
-function pageLoaded() {
-    getSubmissions();
-}
-
 function getSubmissions() {
-    // pull apikey from storage
-    chrome.storage.sync.get('apikey', function(items) {
-        var apikey = items['apikey'];
-        if (apikey) {
-            $.ajax({
-                dataType: "json",
-                url: "https://www.weasyl.com/api/messages/summary",
-                headers: { 'X-Weasyl-API-Key': apikey },
-                success: updateUI,
-                error: error
-            })
-        } else {
-            //    invite to options page
-            displayError("You need to go to the options page and enter a working API key.");
-        }
-    })
-    
-    function error(jqXHR, textStatus, errorThrown){
-        displayError("Something is wrong.");
+    console.log("Running getAPIKey()");
+    Util.getAPIKey(getSummaryData, noAPIKey);
+
+    function getSummaryData(APIKey){
+        console.log("Running getSummaryData()")
+        Util.getSummaryDataWithAPIKey(APIKey, updateUI, error);
     }
     
-    function updateUI(data){
+    function noAPIKey(err){
+        console.log("noAPIKey()")
+        displayError(err);
+    }
+
+    function error(jqXHR, textStatus, errorThrown) {
+        var jqStatus = jqXHR.status;
+        var jqStatusText = jqXHR.statusText;
+        if (jqStatus == '401')
+            displayError(CONSTANTS.error_APIKeyProbablyWrong);
+        else
+            displayError("Something went wrong.<br>" +
+                "jqStatus: " + jqStatus + "<br>" +
+                "jqStatus texts: " + jqStatusText + "<br>"+
+                "textStatus: " + textStatus + "<br>" +
+                "errorThrown: " + errorThrown
+            );
+    }
+
+    function updateUI(data) {
         updateIndividualSpan("submissions", data["submissions"]);
         updateIndividualSpan("journals", data["journals"]);
         updateIndividualSpan("notes", data["unread_notes"]);
         updateIndividualSpan("comments", data["comments"]);
         updateIndividualSpan("streamingNotifications", data["notifications"]);
     }
-    
-    function updateIndividualSpan(id, count){
+
+    function updateIndividualSpan(id, count) {
         document.getElementById(id).innerHTML = count;
     }
-    //    try something else
-    // parse results
-    // display results
 }
 
-// populates 
 function displayError(e) {
     var error = document.getElementById('error');
     error.innerHTML = e;
-
-    // remove class with regex
     error.className = '';
 }
 
-function dismissError(){
+function dismissError() {
     var error = document.getElementById('error');
     error.className = 'invisible';
 }
 
-document.addEventListener('DOMContentLoaded', pageLoaded);
+document.addEventListener('DOMContentLoaded', getSubmissions);
 document.getElementById('error').addEventListener("click", dismissError);

@@ -1,5 +1,5 @@
 function save_options() {
-	var apikey = document.getElementById("apikey").value;
+	var APIKey = document.getElementById("apikey").value;
 	var desktopNotifications = document.getElementById("desktopNotifications").checked;
 	var includeSubmissions = document.getElementById("includeSubmissions").checked;
 	var includeJournals = document.getElementById("includeJournals").checked;
@@ -12,7 +12,7 @@ function save_options() {
 	status.textContent = "Saving options...";
 
 	chrome.storage.sync.set({
-		apikey: apikey,
+		APIKey: APIKey,
 		desktopNotifications: desktopNotifications,
 		includeSubmissions: includeSubmissions,
 		includeJournals: includeJournals,
@@ -30,7 +30,7 @@ function save_options() {
 
 function restore_options() {
 	chrome.storage.sync.get({
-		apikey: "Paste API key here",
+		APIKey: "Paste API key here",
 		desktopNotifications: false,
 		includeSubmissions: true,
 		includeJournals: false,
@@ -38,8 +38,8 @@ function restore_options() {
 		includeStreamNotifications: false,
 		includeComments: false
 	}, function (items) {
-		if (items.apikey)
-			document.getElementById("apikey").value = items.apikey;
+		if (items.APIKey)
+			document.getElementById("apikey").value = items.APIKey;
 		else
 			document.getElementById("apikey").value = "Paste API key here";
 		document.getElementById("desktopNotifications").checked = items.desktopNotifications;
