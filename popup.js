@@ -2,14 +2,15 @@ function getSubmissions() {
     console.log("Running getAPIKey()");
     Util.getAPIKey(getSummaryData, noAPIKey);
 
-    function getSummaryData(APIKey){
+    function getSummaryData(APIKey) {
         console.log("Running getSummaryData()")
         Util.getSummaryDataWithAPIKey(APIKey, updateUI, error);
     }
-    
-    function noAPIKey(err){
+
+    function noAPIKey(err) {
         console.log("noAPIKey()")
         displayError(err);
+        dismissLoading();
     }
 
     function error(jqXHR, textStatus, errorThrown) {
@@ -20,10 +21,11 @@ function getSubmissions() {
         else
             displayError("Something went wrong.<br>" +
                 "jqStatus: " + jqStatus + "<br>" +
-                "jqStatus texts: " + jqStatusText + "<br>"+
+                "jqStatus texts: " + jqStatusText + "<br>" +
                 "textStatus: " + textStatus + "<br>" +
                 "errorThrown: " + errorThrown
             );
+        dismissLoading();
     }
 
     function updateUI(data) {
@@ -32,6 +34,7 @@ function getSubmissions() {
         updateIndividualSpan("notes", data["unread_notes"]);
         updateIndividualSpan("comments", data["comments"]);
         updateIndividualSpan("streamingNotifications", data["notifications"]);
+        dismissLoading();
     }
 
     function updateIndividualSpan(id, count) {
@@ -48,6 +51,11 @@ function displayError(e) {
 function dismissError() {
     var error = document.getElementById('error');
     error.className = 'invisible';
+}
+
+function dismissLoading() {
+    var loading = document.getElementById('loading');
+    loading.className = 'invisible';
 }
 
 document.addEventListener('DOMContentLoaded', getSubmissions);
