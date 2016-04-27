@@ -1,3 +1,9 @@
+function pageLoaded(){
+    document.getElementById('error').addEventListener("click", dismissError);
+    document.getElementById('submissions').addEventListener("click", goToSubmissionsPage);
+    getSubmissions();
+}
+
 function getSubmissions() {
     console.log("Running getAPIKey()");
     Util.getAPIKey(getSummaryData, noAPIKey);
@@ -58,5 +64,8 @@ function dismissLoading() {
     loading.className = 'invisible';
 }
 
-document.addEventListener('DOMContentLoaded', getSubmissions);
-document.getElementById('error').addEventListener("click", dismissError);
+function goToSubmissionsPage(){
+    window.open(CONSTANTS.weasyl_Messages_Submissions);
+}
+
+document.addEventListener('DOMContentLoaded', pageLoaded);

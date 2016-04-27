@@ -31,4 +31,3 @@ Util.getSummaryDataWithAPIKey = function (APIKey, success, failure) {
     console.log("$.ajax()");
     $.ajax(request);
 }
-
