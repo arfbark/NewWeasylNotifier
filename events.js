@@ -1,11 +1,13 @@
 // submissions data retrieved from weasyl api is cached for 3 minutes.
 // no sense in paging more frequently than that.
 chrome.runtime.onInstalled.addListener(function () {
-    chrome.alarms.create("NewWeasylNotifier",
-        {
-            delayInMinutes: 1,  // FIXME  change to 5
-            periodInMinutes: 5
-        });
+    var alarmOptions = {
+        delayInMinutes: 1,  // FIXME  change to 5
+        periodInMinutes: 5
+    };
+
+    console.log("delayInMinutes: " + alarmOptions.delayInMinutes);
+    chrome.alarms.create("NewWeasylNotifier", alarmOptions);
     updateBadge();
 });
 
@@ -14,23 +16,18 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 });
 
 function updateBadge() {
-    Util.getAPIKey(gotAPIKey, error);
-
-    function gotAPIKey(APIKey) {
-        Util.getSummaryDataWithAPIKey(APIKey, success, error)
-    }
+    Util.getSummaryData(success, failure);
 
     function success(data) {
         var count = 0;
         for (var item in data) {
-            console.log(item + ":" + data[item]);
             count += data[item];
         }
         chrome.browserAction.setBadgeBackgroundColor({ color: "#000" });
-        chrome.browserAction.setBadgeText({ text: ''+count });
+        chrome.browserAction.setBadgeText({ text: '' + count });
     }
 
-    function error() {
+    function failure() {
         chrome.browserAction.setBadgeBackgroundColor({ color: "#F00" });
         chrome.browserAction.setBadgeText({ text: "!?" });
     }
